@@ -2,6 +2,7 @@
 import { renderTrailer, closeTrailerByEsc } from './trailer';
 import { movieLocalStorage } from '../local-storage/local-storage.js';
 import { modalSettings } from './modalSettings.js';
+import customPoster from '../../img/film.png';
 
 const BASE_URL = 'https://api.themoviedb.org/3/movie/';
 const apiKey = 'f42f2f62d598d39d316744d8859de3e9';
@@ -90,20 +91,11 @@ async function movieDatabaseApi(movieId) {
 
 const renderDetailInfo = document.querySelector('.render-detail-info');
 function createMarkup(data) {
-  console.log(data.poster_path);
-  let linkImgw500;
-  let linkImgw300;
-  let linkImgw154;
+  let linkImgw500 = customPoster;
+  let linkImgw300 = customPoster;
+  let linkImgw154 = customPoster;
 
-  if (!data.poster_path) {
-    linkImgw500 =
-      'https://www.edu.goit.global/_next/image?url=https%3A%2F%2Fs3.eu-north-1.amazonaws.com%2Flms.goit.files%2F0618d8e0-2652-3e30-ae44-fd6ff17d55a1.png&w=3840&q=75';
-    linkImgw300 =
-      'https://www.edu.goit.global/_next/image?url=https%3A%2F%2Fs3.eu-north-1.amazonaws.com%2Flms.goit.files%2F0618d8e0-2652-3e30-ae44-fd6ff17d55a1.png&w=3840&q=75';
-    linkImgw154 =
-      'https://www.edu.goit.global/_next/image?url=https%3A%2F%2Fs3.eu-north-1.amazonaws.com%2Flms.goit.files%2F0618d8e0-2652-3e30-ae44-fd6ff17d55a1.png&w=3840&q=75';
-    console.log(linkImgw500);
-  } else {
+  if (data.poster_path) {
     linkImgw500 = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
     linkImgw300 = `https://image.tmdb.org/t/p/w300${data.poster_path}`;
     linkImgw154 = `https://image.tmdb.org/t/p/w154${data.poster_path}`;
@@ -178,8 +170,8 @@ function createMarkup(data) {
 export function redrawButtonText() {
   let isWatched = movieLocalStorage.watchedExists(selectedMovie.id);
   let isQueue = movieLocalStorage.queueExists(selectedMovie.id);
-  
-  // config 
+
+  // config
   const settings = modalSettings.buttons;
 
   // reset attributes
@@ -189,14 +181,14 @@ export function redrawButtonText() {
   // button watched
   buttonAddWatch.textContent = settings.watched.getText(isWatched);
   buttonAddWatch.classList.toggle(settings.activeClass, isWatched);
-  if(isWatched){
+  if (isWatched) {
     buttonAddQueue.setAttribute(settings.disableAttribute, 1);
   }
-  
+
   // button queue
   buttonAddQueue.textContent = modalSettings.buttons.queue.getText(isQueue);
   buttonAddQueue.classList.toggle(settings.activeClass, isQueue);
-  if(isQueue){
+  if (isQueue) {
     buttonAddWatch.setAttribute(settings.disableAttribute, 1);
   }
 }

@@ -2,6 +2,7 @@ import { fetchPop, fetchGenre } from '../api/fetchPopularMovies';
 import Pagination from 'tui-pagination';
 import 'tui-pagination/dist/tui-pagination.css';
 import { markupCardMovie } from './render.js';
+import customPoster from '../../img/film.png';
 
 const popList = document.querySelector('.gallery-list');
 const heroSection = document.querySelector('.hero');
@@ -98,7 +99,7 @@ function formatingYear(release_date) {
 
 function formatingPoster(poster_path, title) {
   if (!poster_path) {
-    return `<img class="gallery-img" src="https://www.edu.goit.global/_next/image?url=https%3A%2F%2Fs3.eu-north-1.amazonaws.com%2Flms.goit.files%2F0618d8e0-2652-3e30-ae44-fd6ff17d55a1.png&w=3840&q=75" style="object-fit: contain;" alt="${title}" />`;
+    return `<img class="gallery-img" src=${customPoster} style="object-fit: contain;" alt="${title}" />`;
   }
   return `<picture>
           <source srcset="https://image.tmdb.org/t/p/w500${poster_path}" media="(min-width: 1280px)" />
