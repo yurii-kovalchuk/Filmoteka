@@ -1,13 +1,14 @@
 import * as basicLightbox from 'basiclightbox';
-// import 'basicLightbox/dist/basicLightbox.min.css';
+import Notiflix from 'notiflix';
 
 import axios from 'axios';
 
 let trailer;
 
 function creatTrailerLink(key) {
-  if(!key) {
-    return ;
+  if (!key) {
+    Notiflix.Notify.warning(`Sorry, there is no trailer`);
+    return;
   }
   trailer = basicLightbox.create(`
     <iframe width="320" height="240" src='https://www.youtube.com/embed/${key}'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="trailer_video"></iframe>
@@ -18,7 +19,7 @@ function creatTrailerLink(key) {
 export function closeTrailerByEsc(e) {
   e.stopImmediatePropagation();
   if (e.code === 'Escape') {
-    trailer.close();
+    trailer?.close();
     document.removeEventListener('keydown', closeTrailerByEsc);
   }
 }
@@ -53,7 +54,6 @@ export const renderTrailer = async movieId => {
     } else {
       key = obj.key;
     }
-
   });
 
   trailerBtn.addEventListener('click', () => creatTrailerLink(key));

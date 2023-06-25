@@ -55,6 +55,7 @@ function getId(evt) {
 
 //открытые-рендер модалки
 galleryItem.addEventListener('click', openModal);
+
 async function openModal(evt) {
   let movieId = getId(evt);
   if (!movieId) {
@@ -66,14 +67,14 @@ async function openModal(evt) {
 
   backdrop.classList.toggle('modal—movie-is-hidden'); //меняет видимость модалки
 
+  document.addEventListener('keydown', checkClick);
+  document.addEventListener('click', checkClick);
+  closeModalMovieBtn.addEventListener('click', checkClickBtn);
+
   selectedMovie = await movieDatabaseApi(movieId); //отправляет запрос по ИД для получения данных о фильме
   createMarkup(selectedMovie);
 
   await renderTrailer(movieId);
-
-  document.addEventListener('keydown', checkClick);
-  document.addEventListener('click', checkClick);
-  closeModalMovieBtn.addEventListener('click', checkClickBtn);
 }
 
 async function movieDatabaseApi(movieId) {
@@ -205,7 +206,6 @@ function checkClick(evt) {
     removeEventListener();
     return;
   }
-  // console.log(evt.code);
   if (evt.code === 'Escape') {
     backdrop.classList.toggle('modal—movie-is-hidden');
     removeEventListener();
